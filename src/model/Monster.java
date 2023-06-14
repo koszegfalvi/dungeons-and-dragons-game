@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 public class Monster {
 
     private String name;
@@ -37,5 +39,7 @@ public class Monster {
         if (health < 0) {
             System.out.println(player.getName() + " has been defeated");
         }
+
     }
+
 }

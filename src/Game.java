@@ -1,6 +1,8 @@
 import model.Character;
 import model.Monster;
+import model.MonsterType;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -29,6 +31,9 @@ public class Game {
         monsters[0] = new Monster("Goblin", 50);
         monsters[1] = new Monster("Troll", 60);
         monsters[2] = new Monster("Dragon", 70);
+       // monsters[3] = new Monster(MonsterType.getRandomMonster().toString(), MonsterType.getRandomHealth().ordinal());
+
+
         // Készíts egy gameOver nevű logikai változót, állítds az értékét false-ra!
         boolean gameOver = false;
         // Írj egy ciklust, ami addig tart amíg nincs vége a játéknek (amíg a gameOver nem true) ÉS
@@ -38,7 +43,32 @@ public class Game {
             System.out.println("Choose a monster to go fight or quit: ");
             System.out.println("0: Quit");
 
+            for (int i = 0; i < monsters.length; i++) {
+                System.out.println(i + 1 + " " + monsters[i].getName());
+            }
 
+            // Olvasd be egy choice nevű változóba a felhasználótól, hogy mit választ: kilép vagy valamelyik
+            // szörnnyel harcol!
+            int choice = scanner.nextInt();
+            if (choice == 0) {
+                System.out.println("Thaks for playing! Goodbye!!!");
+                gameOver = true;
+            }
+            // Ha azt választja, hogy kilép (0), írd ki: Thanks for playing! Goodbye.
+            // És állítsd be a gameOver változó értékét true-ra!
+
+            // Ha jó inputot ad meg (1 és tömb hossza között) és harcol:;
+            if (choice >= 1 && choice <= monsters.length) {
+                Monster choiceOfPlayer = monsters[choice - 1];
+                while (choiceOfPlayer.getHealth() > 0 && player.getHealth() > 0) {
+                    player.attack(choiceOfPlayer);
+                    if (choiceOfPlayer.getHealth() > 0) {
+                        choiceOfPlayer.attack(player);
+                    }
+                }
+            } else {
+                System.out.println("Invalid choice!");
+            }
         }
 
         // Írd ki: Choose a monster to fight or quit:
@@ -49,32 +79,8 @@ public class Game {
         // 1: Goblin
         // 2: Troll
         // 3: Dragon
-        for (int i = 0; i < monsters.length; i++) {
-            System.out.println(i + 1 + " " + monsters[i].getName());
-        }
 
-        // Olvasd be egy choice nevű változóba a felhasználótól, hogy mit választ: kilép vagy valamelyik
-        // szörnnyel harcol!
-        int choice = scanner.nextInt();
-        if (choice == 0) {
-            System.out.println("Thaks for playing! Goodbye!!!");
-            gameOver = true;
-        }
-        // Ha azt választja, hogy kilép (0), írd ki: Thanks for playing! Goodbye.
-        // És állítsd be a gameOver változó értékét true-ra!
 
-        // Ha jó inputot ad meg (1 és tömb hossza között) és harcol:;
-        if (choice >= 1 && choice <= monsters.length) {
-            Monster choiceOfPlayer = monsters[choice - 1];
-            while (choiceOfPlayer.getHealth() > 0 && player.getHealth() > 0) {
-                player.attack(choiceOfPlayer);
-                if (choiceOfPlayer.getHealth() > 0) {
-                    choiceOfPlayer.attack(player);
-                }
-            }
-        } else {
-            System.out.println("Invalid choice!");
-        }
         // Tárold el egy Monster típusú változóban, hogy melyiket választotta a felhasználó!
 
         // Írj egy ciklust, ami addig megy, amíg a szörny és a játékos élete is nagyobb mint 0!
